@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Social Feeds (2 в ряд)</title>
+  <link rel="stylesheet" href="../src/social-widget.css">
+</head>
+<body>
+  <div style="max-width:980px;margin:40px auto;padding:0 16px;">
+    <h1 style="text-align:center;margin-bottom:20px;">Наши соцсети</h1>
+
+    <div id="social-two"></div>
+  </div>
+
+  <script src="../src/social-widget.js"></script>
+  <script>
+    SocialWidget.init({
+      selector: '#social-two',
+      show: 2,
+      title: 'Подписывайтесь и пишите нам',
+      networks: [
+        { type: 'tiktok',    name: 'TikTok',    url: 'https://www.tiktok.com/@your_account' },
+        { type: 'instagram', name: 'Instagram', url: 'https://www.instagram.com/your_account/' },
+        { type: 'facebook',  name: 'Facebook',  url: 'https://www.facebook.com/your_page' },
+        { type: 'linkedin',  name: 'LinkedIn',  url: 'https://www.linkedin.com/company/your_company/' },
+        { type: 'whatsapp',  name: 'WhatsApp',  phone: '+420700000000', message: 'Dobrý den! 👋' }
+      ]
+    });
+  </script>
+</body>
+</html>
