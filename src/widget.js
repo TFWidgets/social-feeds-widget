@@ -133,3 +133,4 @@
   // экспорт
   window.SocialWidget = SocialWidget;
 })();
+
