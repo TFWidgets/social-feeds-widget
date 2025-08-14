@@ -1,0 +1,70 @@
+/* Обёртка */
+.sf-wrap { font-family: system-ui, -apple-system, Arial, sans-serif; }
+
+/* Заголовок */
+.sf-h3 {
+  margin: 0 0 12px 0;
+  font-size: 20px;
+  color: #1f2937;
+}
+
+/* Табы */
+.sf-tabs {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin: 8px 0 14px 0;
+}
+.sf-tab {
+  border: 0; padding: 8px 14px; border-radius: 999px;
+  background: #eef2ff; cursor: pointer; transition: transform .15s, background .2s;
+  font-weight: 600;
+}
+.sf-tab:hover { transform: translateY(-1px); }
+.sf-tab.is-active { background: #6366f1; color: #fff; }
+
+/* Сетка карточек (2 колонки) */
+.sf-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+@media (max-width: 640px) {
+  .sf-grid { grid-template-columns: 1fr; }
+}
+
+/* Карточка */
+.sf-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #ffffff, #fafafa);
+  border: 1px solid #e5e7eb;
+  padding: 16px;
+  box-shadow: 0 8px 28px rgba(0,0,0,.06);
+  transition: transform .15s ease, box-shadow .2s ease;
+}
+.sf-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 40px rgba(0,0,0,.12);
+}
+
+/* Шапка карточки */
+.sf-card__head { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.sf-ico { font-size: 20px; }
+.sf-title small { color:#6b7280; display:block; }
+
+/* Контент карточки */
+.sf-post { display:flex; gap:12px; align-items:center; }
+.sf-post__thumb {
+  width:60px; height:60px; border-radius:12px;
+  background: linear-gradient(135deg, #a78bfa, #60a5fa);
+}
+.sf-post__title { font-weight:700; }
+.sf-post__muted { color:#6b7280; font-size:12px; }
+
+/* WhatsApp стили */
+.sf-chat { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.sf-chat__line { color:#16a34a; font-weight:600; }
+.sf-chat__btn {
+  padding:8px 14px; border-radius:999px; background:#22c55e; color:#fff; font-weight:700;
+}
