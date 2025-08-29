@@ -1,1 +1,18 @@
 
+{
+  "platforms": ["instagram", "facebook"],
+  "theme": "minimal",
+  "layout": "list",
+  "maxPosts": 5,
+  "refreshInterval": 600000,
+  "showAvatars": false,
+  "showTimestamp": true,
+  "animation": false,
+  "title": "Наши новости",
+  "styling": {
+    "primaryColor": "#059669",
+    "backgroundColor": "#FFFFFF",
+    "borderRadius": "8px",
+    "shadow": false
+  }
+}
