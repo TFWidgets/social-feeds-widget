@@ -2,18 +2,12 @@
   "platforms": ["tiktok", "instagram", "facebook", "linkedin", "whatsapp"],
   "theme": "modern",
   "layout": "grid",
-  "maxPosts": 10,
+  "maxPosts": 8,
   "refreshInterval": 300000,
   "showAvatars": true,
   "showTimestamp": true,
   "animation": true,
-  "title": "Социальные фиды",
-  "apiKeys": {
-    "tiktok": "your-tiktok-api-key",
-    "instagram": "your-instagram-token",
-    "facebook": "your-facebook-token",
-    "linkedin": "your-linkedin-token"
-  },
+  "title": "🌟 Наши социальные сети",
   "filters": {
     "minLikes": 0,
     "excludeWords": [],
@@ -22,7 +16,7 @@
   "styling": {
     "primaryColor": "#4F46E5",
     "backgroundColor": "#F8FAFC",
-    "borderRadius": "12px",
+    "borderRadius": "16px",
     "shadow": true
   }
 }
