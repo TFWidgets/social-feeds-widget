@@ -1,1 +1,125 @@
-in
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media Feeds Widget — Демо</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 50px;
+            font-size: 1.1em;
+        }
+        .demo-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .code-example {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        .feature {
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .feature-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 Social Media Feeds Widget</h1>
+        <p class="subtitle">Виджет для отображения фидов из социальных сетей: TikTok, Instagram, Facebook, LinkedIn, WhatsApp</p>
+        
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">🌐</div>
+                <h3>Мультиплатформенность</h3>
+                <p>Поддержка 5 популярных соцсетей</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">📱</div>
+                <h3>Адаптивный дизайн</h3>
+                <p>Работает на всех устройствах</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">⚙️</div>
+                <h3>Настраиваемый</h3>
+                <p>Гибкая конфигурация через JSON</p>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>🚀 Демо виджет (demo.json)</h2>
+            <p>Пример использования с полной конфигурацией:</p>
+            <div class="code-example">&lt;script src="embed.js" data-id="demo"&gt;&lt;/script&gt;</div>
+            
+            <!-- Демо виджет -->
+            <script src="./embed.js" data-id="demo"></script>
+        </div>
+        
+        <div class="demo-section">
+            <h2>💼 Корпоративный виджет (client123.json)</h2>
+            <p>Пример с ограниченным набором платформ:</p>
+            <div class="code-example">&lt;script src="embed.js" data-id="client123"&gt;&lt;/script&gt;</div>
+            
+            <!-- Клиентский виджет -->
+            <script src="./embed.js" data-id="client123"></script>
+        </div>
+        
+        <div class="demo-section">
+            <h2>📋 Интеграция</h2>
+            <h3>Базовое подключение:</h3>
+            <div class="code-example">&lt;script src="https://ВАШ-ДОМЕН/embed.js" data-id="КЛИЕНТ-ID"&gt;&lt;/script&gt;</div>
+            
+            <h3>JavaScript API:</h3>
+            <div class="code-example">// Программная инициализация
+const widget = new SocialFeedsWidget('container-id', 'configs/demo.json');
+
+// Обновить фиды
+widget.render();
+
+// Остановить автообновление
+widget.destroy();</div>
+        </div>
+    </div>
+</body>
+</html>
