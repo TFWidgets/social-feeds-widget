@@ -1,6 +1,5 @@
-
 {
-  "platforms": ["instagram", "facebook"],
+  "platforms": ["instagram", "facebook", "linkedin"],
   "theme": "minimal",
   "layout": "list",
   "maxPosts": 5,
@@ -8,11 +7,10 @@
   "showAvatars": false,
   "showTimestamp": true,
   "animation": false,
-  "title": "Наши новости",
-  "styling": {
-    "primaryColor": "#059669",
-    "backgroundColor": "#FFFFFF",
-    "borderRadius": "8px",
-    "shadow": false
+  "title": "Корпоративные новости",
+  "filters": {
+    "minLikes": 10,
+    "excludeWords": ["спам", "реклама"],
+    "includeHashtags": ["бизнес", "новости"]
   }
 }
