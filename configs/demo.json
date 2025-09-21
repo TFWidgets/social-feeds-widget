@@ -1,22 +1,15 @@
 {
-  "platforms": ["tiktok", "instagram", "facebook", "linkedin", "whatsapp"],
-  "theme": "modern",
-  "layout": "grid",
+  "title": "Our soucial",
+  "platforms": ["facebook", "instagram", "tiktok", "linkedin", "whatsapp"],
   "maxPosts": 8,
-  "refreshInterval": 300000,
+  "layout": "grid",
   "showAvatars": true,
   "showTimestamp": true,
-  "animation": true,
-  "title": "🌟 Наши социальные сети",
-  "filters": {
-    "minLikes": 0,
-    "excludeWords": [],
-    "includeHashtags": []
+  "theme": {
+    "primaryColor": "#667eea",
+    "secondaryColor": "#764ba2",
+    "textColor": "white",
+    "borderRadius": 20
   },
-  "styling": {
-    "primaryColor": "#4F46E5",
-    "backgroundColor": "#F8FAFC",
-    "borderRadius": "16px",
-    "shadow": true
-  }
+  "fontFamily": "'Inter', sans-serif"
 }
