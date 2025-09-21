@@ -1,5 +1,5 @@
 {
-  "title": "Новости и кейсы",
+  "title": "News and Cases",
   "platforms": ["instagram", "tiktok"],
   "maxPosts": 6,
   "layout": "grid",
