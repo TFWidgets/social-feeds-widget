@@ -228,35 +228,35 @@
         id: 'ig'+rand(1,9999), platform:'instagram',
         author:'Instagram User',
         avatar:'https://via.placeholder.com/40x40/E4405F/ffffff?text=IG',
-        content:'Потрясающее фото! 📸 #photography #sunset',
+        content:'Amazing photo! 📸 #photography #sunset',
         timestamp: ts(), likes: rand(50, 1200), comments: rand(3,150)
       }),
       facebook: () => ({
         id:'fb'+rand(1,9999), platform:'facebook',
         author:'Facebook Page',
         avatar:'https://via.placeholder.com/40x40/1877F2/ffffff?text=FB',
-        content:'Новости и апдейты компании. Следите за нами! 👥',
+        content:'Company news and updates. Follow us! 👥',
         timestamp: ts(), likes: rand(20,600), comments: rand(1,90), shares: rand(5,120)
       }),
       tiktok: () => ({
         id:'tk'+rand(1,9999), platform:'tiktok',
         author:'TikTok Creator',
         avatar:'https://via.placeholder.com/40x40/FF0050/ffffff?text=TK',
-        content:'Новый тренд 🎵 #viral #trending',
+        content:'New trend 🎵 #viral #trending',
         timestamp: ts(), likes: rand(100,2500), comments: rand(10,300), shares: rand(20,600)
       }),
       linkedin: () => ({
         id:'li'+rand(1,9999), platform:'linkedin',
         author:'Professional Network',
         avatar:'https://via.placeholder.com/40x40/0A66C2/ffffff?text=LI',
-        content:'Карьерные инсайты и советы. Развиваемся вместе! 💼',
+        content:'Career insights and tips. Let’s grow together! 💼',
         timestamp: ts(), likes: rand(10,350), comments: rand(1,40)
       }),
       whatsapp: () => ({
         id:'wa'+rand(1,9999), platform:'whatsapp',
         author:'WhatsApp Status',
         avatar:'https://via.placeholder.com/40x40/25D366/ffffff?text=WA',
-        content:'Статус дня: продуктивность и позитив ✨',
+        content:'Status of the day: productivity and positivity ✨',
         timestamp: ts()
       })
     };
