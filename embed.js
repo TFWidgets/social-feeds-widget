@@ -6,7 +6,7 @@
 
   // Красивый дефолт, минимум настроек, все эффекты встроены
   const defaultConfig = {
-    title: "Наши социальные сети",
+    title: "Our social",
     platforms: ["facebook", "instagram", "tiktok", "linkedin", "whatsapp"],
     maxPosts: 8,
     layout: "grid",               // grid | list
@@ -273,9 +273,9 @@
     const m = Math.floor(diff/60000);
     const h = Math.floor(diff/3600000);
     const day = Math.floor(diff/86400000);
-    if (day>0) return `${day}д назад`;
-    if (h>0) return `${h}ч назад`;
-    if (m>0) return `${m}м назад`;
+    if (day>0) return `${day}d before`;
+    if (h>0) return `${h}h before`;
+    if (m>0) return `${m}m before`;
     return 'только что';
   }
 
