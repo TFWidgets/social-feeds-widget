@@ -1,16 +1,17 @@
 {
-  "platforms": ["instagram", "facebook", "linkedin"],
-  "theme": "minimal",
-  "layout": "list",
-  "maxPosts": 5,
-  "refreshInterval": 600000,
-  "showAvatars": false,
-  "showTimestamp": true,
-  "animation": false,
-  "title": "Корпоративные новости",
+  "title": "Новости и кейсы",
+  "platforms": ["instagram", "tiktok"],
+  "maxPosts": 6,
+  "layout": "grid",
+  "theme": {
+    "primaryColor": "#2563eb",
+    "secondaryColor": "#1d4ed8",
+    "textColor": "white",
+    "borderRadius": 18
+  },
+  "fontFamily": "'Roboto', sans-serif",
   "filters": {
-    "minLikes": 10,
-    "excludeWords": ["спам", "реклама"],
-    "includeHashtags": ["бизнес", "новости"]
+    "minLikes": 50,
+    "excludeWords": ["розыгрыш", "casino"]
   }
 }
