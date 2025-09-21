@@ -1,495 +1,316 @@
-/**
- * Social Media Feeds Widget
- * Полностью самодостаточный виджет для отображения фидов из социальных сетей
- */
-(function() {
-    'use strict';
-    
-    // Встроенные стили (полный CSS внутри JS)
-    const inlineCSS = `
-        .sfw-container {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            max-width: 1200px;
-            margin: 20px auto;
-        }
-        .sfw-widget {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 20px 60px rgba(102,126,234,0.4);
-            color: white;
-            position: relative;
-            overflow: hidden;
-        }
-        .sfw-widget::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.15) 0%, transparent 50%);
-            pointer-events: none;
-        }
-        .sfw-title {
-            font-size: 1.8em;
-            font-weight: 700;
-            margin: 0 0 25px 0;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
-            position: relative;
-            z-index: 1;
-            text-align: center;
-        }
-        .sfw-feeds {
-            display: grid;
-            gap: 20px;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            position: relative;
-            z-index: 1;
-        }
-        .sfw-feeds.list-layout {
-            grid-template-columns: 1fr;
-        }
-        .sfw-item {
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255,255,255,0.3);
-            border-radius: 16px;
-            padding: 20px;
-            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
-            position: relative;
-        }
-        .sfw-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-            background: rgba(255,255,255,0.25);
-        }
-        .sfw-item.tiktok { border-left: 4px solid #FF0050; }
-        .sfw-item.instagram { border-left: 4px solid #E4405F; }
-        .sfw-item.facebook { border-left: 4px solid #1877F2; }
-        .sfw-item.linkedin { border-left: 4px solid #0A66C2; }
-        .sfw-item.whatsapp { border-left: 4px solid #25D366; }
-        .sfw-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        .sfw-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 12px;
-            border: 2px solid rgba(255,255,255,0.7);
-        }
-        .sfw-meta {
-            flex: 1;
-        }
-        .sfw-author {
-            font-weight: 600;
-            font-size: 14px;
-            margin: 0 0 4px 0;
-        }
-        .sfw-time {
-            font-size: 12px;
-            opacity: 0.8;
-        }
-        .sfw-platform-icon {
-            font-size: 18px;
-            margin-left: auto;
-        }
-        .sfw-content {
-            font-size: 14px;
-            line-height: 1.5;
-            margin-bottom: 15px;
-        }
-        .sfw-actions {
-            display: flex;
-            gap: 15px;
-            font-size: 12px;
-        }
-        .sfw-action {
-            background: rgba(255,255,255,0.2);
-            padding: 4px 8px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .sfw-loading {
-            text-align: center;
-            padding: 60px 20px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 16px;
-            backdrop-filter: blur(10px);
-        }
-        .sfw-spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid rgba(255,255,255,0.3);
-            border-top: 3px solid white;
-            border-radius: 50%;
-            animation: sfw-spin 1s linear infinite;
-            margin: 0 auto 15px;
-        }
-        .sfw-error {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-            padding: 30px;
-            border-radius: 16px;
-            text-align: center;
-            color: white;
-            box-shadow: 0 15px 40px rgba(255,107,107,0.4);
-        }
-        @keyframes sfw-spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        @keyframes sfw-fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .sfw-item.animated {
-            animation: sfw-fadeInUp 0.6s ease-out forwards;
-        }
-        @media (max-width: 768px) {
-            .sfw-feeds {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-            .sfw-widget {
-                padding: 20px;
-            }
-            .sfw-title {
-                font-size: 1.5em;
-            }
-        }
-    `;
-    
-    // Добавляем стили один раз на страницу
-    if (!document.getElementById('sfw-styles')) {
-        const style = document.createElement('style');
-        style.id = 'sfw-styles';
-        style.textContent = inlineCSS;
-        document.head.appendChild(style);
-    }
-    
-    // Определяем текущий script тег
-    const currentScript = document.currentScript || 
-        (function() {
-            const scripts = document.getElementsByTagName('script');
-            return scripts[scripts.length - 1];
-        })();
-    
-    const clientId = currentScript.dataset.id;
-    if (!clientId) {
-        console.error('[SocialFeedsWidget] data-id обязателен');
-        return;
-    }
-    
-    // Определяем базовый URL (откуда загружен embed.js)
-    const baseUrl = currentScript.src.replace(/\/[^\/]+$/, '');
-    const configUrl = `${baseUrl}/configs/${encodeURIComponent(clientId)}.json`;
-    
-    // Создаем контейнер
+(() => {
+  'use strict';
+
+  const scripts = Array.from(document.querySelectorAll('script[src*="embed.js"]'));
+  if (!scripts.length) return;
+
+  // Красивый дефолт, минимум настроек, все эффекты встроены
+  const defaultConfig = {
+    title: "Наши социальные сети",
+    platforms: ["facebook", "instagram", "tiktok", "linkedin", "whatsapp"],
+    maxPosts: 8,
+    layout: "grid",               // grid | list
+    showAvatars: true,
+    showTimestamp: true,
+    refreshInterval: 0,           // ms; 0 = без автообновления
+    theme: {
+      backgroundColor: null,      // если null — возьмем градиент из primary/secondary
+      primaryColor: "#667eea",
+      secondaryColor: "#764ba2",
+      textColor: "white",
+      borderRadius: 20
+    },
+    fontFamily: "'Inter', system-ui, sans-serif",
+    filters: null                 // { minLikes, includeHashtags:[], excludeWords:[] }
+  };
+
+  const PLATFORM_ACCENTS = {
+    tiktok:  "#FF0050",
+    instagram:"#E4405F",
+    facebook:"#1877F2",
+    linkedin:"#0A66C2",
+    whatsapp:"#25D366",
+    default: "#ffffff"
+  };
+
+  scripts.forEach(async (script) => {
+    // защита от повторной инициализации
+    if (script.dataset.sfwMounted === '1') return;
+    script.dataset.sfwMounted = '1';
+
+    const id = (script.dataset.id || 'demo').replace(/\.(json|js)$/,'');
+    const basePath = getBasePath(script.src);
+    const cfg = await loadConfig(id, basePath);
+
+    mountWidget(script, cfg, id);
+  });
+
+  function mountWidget(host, cfg, id) {
+    const config = mergeDeep(defaultConfig, cfg || {});
+    const unique = `sfw-${id}-${Date.now()}`;
+
     const container = document.createElement('div');
-    container.id = `sfw-${clientId}`;
-    container.className = 'sfw-container';
-    currentScript.parentNode.insertBefore(container, currentScript.nextSibling);
-    
-    // Класс виджета
-    class SocialFeedsWidget {
-        constructor(containerEl, configUrl) {
-            this.container = containerEl;
-            this.configUrl = configUrl;
-            this.config = {};
-            this.cache = new Map();
-            this.refreshTimer = null;
-            this.init();
-        }
-        
-        async init() {
-            try {
-                this.showLoading();
-                await this.loadConfig();
-                await this.render();
-                this.startAutoRefresh();
-                console.log(`[SocialFeedsWidget] Виджет ${clientId} успешно инициализирован`);
-            } catch (error) {
-                this.showError('Ошибка инициализации', error);
-            }
-        }
-        
-        showLoading() {
-            this.container.innerHTML = `
-                <div class="sfw-widget">
-                    <div class="sfw-loading">
-                        <div class="sfw-spinner"></div>
-                        <div>Загрузка социальных фидов...</div>
-                    </div>
-                </div>
-            `;
-        }
-        
-        async loadConfig() {
-            const response = await fetch(this.configUrl, {
-                cache: 'no-cache',
-                headers: { 'Accept': 'application/json' }
-            });
-            
-            if (!response.ok) {
-                throw new Error(`Конфигурация не найдена (${response.status})`);
-            }
-            
-            this.config = await response.json();
-        }
-        
-        async render() {
-            const feeds = await this.loadFeeds();
-            const layout = this.config.layout === 'list' ? 'list-layout' : '';
-            
-            if (feeds.length === 0) {
-                this.container.innerHTML = `
-                    <div class="sfw-widget">
-                        <div class="sfw-loading">📭 Нет доступных фидов</div>
-                    </div>
-                `;
-                return;
-            }
-            
-            const feedsHTML = feeds.map((feed, index) => `
-                <div class="sfw-item ${feed.platform} ${this.config.animation ? 'animated' : ''}" 
-                     style="animation-delay: ${index * 0.1}s">
-                    ${this.config.showAvatars !== false ? `
-                        <div class="sfw-header">
-                            <img class="sfw-avatar" src="${feed.avatar}" alt="${feed.author}" loading="lazy">
-                            <div class="sfw-meta">
-                                <div class="sfw-author">${this.escapeHtml(feed.author)}</div>
-                                ${this.config.showTimestamp !== false ? `
-                                    <div class="sfw-time">${this.formatTime(feed.timestamp)}</div>
-                                ` : ''}
-                            </div>
-                            <div class="sfw-platform-icon">${this.getPlatformIcon(feed.platform)}</div>
-                        </div>
-                    ` : ''}
-                    <div class="sfw-content">${this.escapeHtml(feed.content)}</div>
-                    <div class="sfw-actions">
-                        ${feed.likes ? `<div class="sfw-action">❤️ ${feed.likes}</div>` : ''}
-                        ${feed.comments ? `<div class="sfw-action">💬 ${feed.comments}</div>` : ''}
-                        ${feed.shares ? `<div class="sfw-action">↗️ ${feed.shares}</div>` : ''}
-                    </div>
-                </div>
-            `).join('');
-            
-            this.container.innerHTML = `
-                <div class="sfw-widget">
-                    ${this.config.title ? `<h2 class="sfw-title">${this.escapeHtml(this.config.title)}</h2>` : ''}
-                    <div class="sfw-feeds ${layout}">
-                        ${feedsHTML}
-                    </div>
-                </div>
-            `;
-        }
-        
-        async loadFeeds() {
-            const platforms = this.config.platforms || [];
-            const maxPosts = this.config.maxPosts || 10;
-            let allFeeds = [];
-            
-            for (const platform of platforms) {
-                try {
-                    const feeds = await this.fetchPlatformFeeds(platform);
-                    allFeeds.push(...feeds);
-                } catch (error) {
-                    console.warn(`Ошибка загрузки ${platform}:`, error);
-                }
-            }
-            
-            // Применяем фильтры
-            allFeeds = this.applyFilters(allFeeds);
-            
-            // Сортируем по времени и ограничиваем количество
-            return allFeeds
-                .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
-                .slice(0, maxPosts);
-        }
-        
-        async fetchPlatformFeeds(platform) {
-            // Проверяем кэш (5 минут)
-            const cacheKey = `feeds_${platform}`;
-            const cached = this.cache.get(cacheKey);
-            if (cached && (Date.now() - cached.timestamp) < 300000) {
-                return cached.data;
-            }
-            
-            // Демонстрационные данные (в реальном проекте здесь будут API вызовы)
-            const mockData = {
-                tiktok: [
-                    {
-                        id: 'tk1',
-                        platform: 'tiktok',
-                        author: 'TikTok Creator',
-                        avatar: 'https://via.placeholder.com/40x40/FF0050/white?text=TK',
-                        content: 'Крутой TikTok контент! 🎵 Новый тренд набирает обороты #viral #trending',
-                        timestamp: new Date(Date.now() - Math.random() * 86400000).toISOString(),
-                        likes: Math.floor(Math.random() * 2000) + 100,
-                        comments: Math.floor(Math.random() * 200) + 10,
-                        shares: Math.floor(Math.random() * 500) + 20
-                    }
-                ],
-                instagram: [
-                    {
-                        id: 'ig1',
-                        platform: 'instagram',
-                        author: 'Instagram User',
-                        avatar: 'https://via.placeholder.com/40x40/E4405F/white?text=IG',
-                        content: 'Потрясающее фото дня! 📸 Закат над городом просто невероятный #photography #sunset',
-                        timestamp: new Date(Date.now() - Math.random() * 86400000).toISOString(),
-                        likes: Math.floor(Math.random() * 1000) + 50,
-                        comments: Math.floor(Math.random() * 100) + 5
-                    }
-                ],
-                facebook: [
-                    {
-                        id: 'fb1',
-                        platform: 'facebook',
-                        author: 'Facebook Page',
-                        avatar: 'https://via.placeholder.com/40x40/1877F2/white?text=FB',
-                        content: 'Делимся важными новостями и обновлениями. Следите за нашими постами! 👥',
-                        timestamp: new Date(Date.now() - Math.random() * 86400000).toISOString(),
-                        likes: Math.floor(Math.random() * 500) + 25,
-                        comments: Math.floor(Math.random() * 50) + 3,
-                        shares: Math.floor(Math.random() * 100) + 5
-                    }
-                ],
-                linkedin: [
-                    {
-                        id: 'li1',
-                        platform: 'linkedin',
-                        author: 'Professional Network',
-                        avatar: 'https://via.placeholder.com/40x40/0A66C2/white?text=LI',
-                        content: 'Профессиональные инсайты и карьерные советы. Развивайтесь вместе с нами! 💼',
-                        timestamp: new Date(Date.now() - Math.random() * 86400000).toISOString(),
-                        likes: Math.floor(Math.random() * 300) + 15,
-                        comments: Math.floor(Math.random() * 30) + 2
-                    }
-                ],
-                whatsapp: [
-                    {
-                        id: 'wa1',
-                        platform: 'whatsapp',
-                        author: 'WhatsApp Status',
-                        avatar: 'https://via.placeholder.com/40x40/25D366/white?text=WA',
-                        content: 'Статус дня: Позитивное настроение и продуктивность! ✨ Отличный день впереди',
-                        timestamp: new Date(Date.now() - Math.random() * 86400000).toISOString()
-                    }
-                ]
-            };
-            
-            const feeds = mockData[platform] || [];
-            this.cache.set(cacheKey, { data: feeds, timestamp: Date.now() });
-            return feeds;
-        }
-        
-        applyFilters(feeds) {
-            const filters = this.config.filters || {};
-            
-            if (filters.minLikes) {
-                feeds = feeds.filter(feed => (feed.likes || 0) >= filters.minLikes);
-            }
-            
-            if (filters.excludeWords && filters.excludeWords.length) {
-                const excludeRegex = new RegExp(filters.excludeWords.join('|'), 'i');
-                feeds = feeds.filter(feed => !excludeRegex.test(feed.content));
-            }
-            
-            if (filters.includeHashtags && filters.includeHashtags.length) {
-                const hashtagRegex = new RegExp(filters.includeHashtags.map(tag => `#${tag}`).join('|'), 'i');
-                feeds = feeds.filter(feed => hashtagRegex.test(feed.content));
-            }
-            
-            return feeds;
-        }
-        
-        getPlatformIcon(platform) {
-            const icons = {
-                tiktok: '🎵',
-                instagram: '📸',
-                facebook: '👥',
-                linkedin: '💼',
-                whatsapp: '💬'
-            };
-            return icons[platform] || '📱';
-        }
-        
-        formatTime(timestamp) {
-            const date = new Date(timestamp);
-            const now = new Date();
-            const diff = now - date;
-            
-            const minutes = Math.floor(diff / 60000);
-            const hours = Math.floor(diff / 3600000);
-            const days = Math.floor(diff / 86400000);
-            
-            if (days > 0) return `${days}д назад`;
-            if (hours > 0) return `${hours}ч назад`;
-            if (minutes > 0) return `${minutes}м назад`;
-            return 'Только что';
-        }
-        
-        escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-        
-        startAutoRefresh() {
-            const interval = this.config.refreshInterval;
-            if (interval && interval > 0) {
-                this.refreshTimer = setInterval(() => {
-                    this.render().catch(console.error);
-                }, interval);
-            }
-        }
-        
-        showError(title, error) {
-            console.error('[SocialFeedsWidget]', title, error);
-            this.container.innerHTML = `
-                <div class="sfw-error">
-                    <h3 style="margin: 0 0 15px 0;">⚠️ ${title}</h3>
-                    <p style="margin: 0; opacity: 0.9;">ID: ${clientId}</p>
-                    <details style="margin-top: 15px;">
-                        <summary style="cursor: pointer;">Подробности</summary>
-                        <p style="margin: 10px 0 0 0; font-size: 0.9em;">${error.message}</p>
-                    </details>
-                </div>
-            `;
-        }
-        
-        destroy() {
-            if (this.refreshTimer) {
-                clearInterval(this.refreshTimer);
-            }
-            this.cache.clear();
-        }
+    container.className = `sfw-container ${unique}`;
+    host.parentNode.insertBefore(container, host);
+
+    const themeBg = config.theme.backgroundColor ||
+      `linear-gradient(135deg, ${config.theme.primaryColor} 0%, ${config.theme.secondaryColor} 100%)`;
+
+    // Стили изолированы уникальным классом
+    const style = document.createElement('style');
+    style.textContent = `
+      .${unique} { font-family:${config.fontFamily}; max-width:1200px; margin:20px auto; }
+      .${unique} .sfw-widget {
+        background: ${themeBg};
+        border-radius:${config.theme.borderRadius}px;
+        padding: 30px;
+        color:${config.theme.textColor};
+        box-shadow: 0 20px 60px rgba(0,0,0,.25);
+        position: relative; overflow: hidden;
+      }
+      .${unique} .sfw-widget::before{
+        content:''; position:absolute; inset:0;
+        background: radial-gradient(circle at 25% 20%, rgba(255,255,255,.18) 0%, transparent 55%);
+        pointer-events:none;
+      }
+      .${unique} .sfw-title{
+        text-align:center; margin:0 0 24px 0; font-size:1.9em; font-weight:800;
+        letter-spacing:.2px; text-shadow:0 2px 8px rgba(0,0,0,.35);
+      }
+      .${unique} .sfw-grid{
+        display:grid; gap:18px;
+        grid-template-columns: repeat(auto-fill, minmax(280px,1fr));
+      }
+      .${unique} .sfw-grid.list { grid-template-columns: 1fr; }
+      .${unique} .sfw-card{
+        background: rgba(255,255,255,.14);
+        border: 1px solid rgba(255,255,255,.28);
+        border-radius:16px; padding:18px;
+        backdrop-filter: blur(14px);
+        transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
+        position:relative; overflow:hidden;
+      }
+      .${unique} .sfw-card::after{
+        content:''; position:absolute; inset:0;
+        background: linear-gradient(180deg, rgba(255,255,255,.06), transparent 60%);
+        pointer-events:none;
+      }
+      .${unique} .sfw-card:hover{
+        transform: translateY(-4px);
+        background: rgba(255,255,255,.20);
+        box-shadow: 0 14px 36px rgba(0,0,0,.25);
+      }
+      .${unique} .sfw-accent{
+        content:''; position:absolute; left:0; top:0; bottom:0; width:4px; border-radius:16px 0 0 16px;
+      }
+      .${unique} .sfw-head{ display:flex; align-items:center; gap:12px; margin-bottom:12px; }
+      .${unique} .sfw-avatar{ width:40px; height:40px; border-radius:50%; border:2px solid rgba(255,255,255,.75); object-fit:cover; }
+      .${unique} .sfw-meta{ display:flex; flex-direction:column; gap:2px; }
+      .${unique} .sfw-author{ font-weight:700; font-size:14px; }
+      .${unique} .sfw-time{ font-size:12px; opacity:.85; }
+      .${unique} .sfw-content{ font-size:14px; line-height:1.55; margin-top:6px; }
+      .${unique} .sfw-actions{ display:flex; gap:10px; margin-top:12px; flex-wrap:wrap; }
+      .${unique} .sfw-chip{
+        background: rgba(255,255,255,.18); border:1px solid rgba(255,255,255,.32);
+        padding:5px 9px; border-radius:9px; font-size:12px; display:inline-flex; gap:6px; align-items:center;
+      }
+      @media (max-width: 768px){ .${unique} .sfw-widget{ padding:22px; } .${unique} .sfw-title{ font-size:1.6em; } }
+    `;
+    document.head.appendChild(style);
+
+    // Загрузка/рендер
+    container.innerHTML = loadingHTML(unique);
+    renderFeeds(container, config, unique);
+    if (config.refreshInterval && config.refreshInterval > 0) {
+      setInterval(() => renderFeeds(container, config, unique), config.refreshInterval);
     }
-    
-    // Автоинициализация
-    try {
-        const widget = new SocialFeedsWidget(container, configUrl);
-        container.__socialFeedsWidget = widget;
-        window.SocialFeedsWidget = SocialFeedsWidget;
-    } catch (error) {
-        console.error('[SocialFeedsWidget] Критическая ошибка:', error);
-        container.innerHTML = `
-            <div class="sfw-error">
-                <strong>⛔ Ошибка загрузки виджета</strong><br>
-                <small>${error.message}</small>
+  }
+
+  function loadingHTML(unique){
+    return `
+      <div class="sfw-widget">
+        <div class="sfw-title">Загрузка…</div>
+        <div class="sfw-grid ${unique}-grid">
+          <div class="sfw-card"><div class="sfw-content" style="opacity:.7">Подготавливаем ленту…</div></div>
+        </div>
+      </div>
+    `;
+  }
+
+  async function renderFeeds(container, config, unique) {
+    const feeds = await collectFeeds(config);
+    if (!feeds.length) {
+      container.innerHTML = `
+        <div class="sfw-widget">
+          ${config.title ? `<div class="sfw-title">${escapeHtml(config.title)}</div>`:''}
+          <div class="sfw-grid"><div class="sfw-card"><div class="sfw-content">📭 Нет постов</div></div></div>
+        </div>
+      `;
+      return;
+    }
+
+    const gridClass = config.layout === 'list' ? 'sfw-grid list' : 'sfw-grid';
+    const cards = feeds
+      .slice(0, config.maxPosts || 8)
+      .map(f => cardHTML(f, unique, config))
+      .join('');
+
+    container.innerHTML = `
+      <div class="sfw-widget">
+        ${config.title ? `<div class="sfw-title">${escapeHtml(config.title)}</div>`:''}
+        <div class="${gridClass}">
+          ${cards}
+        </div>
+      </div>
+    `;
+  }
+
+  function cardHTML(feed, unique, config){
+    const accent = PLATFORM_ACCENTS[feed.platform] || PLATFORM_ACCENTS.default;
+    return `
+      <div class="sfw-card">
+        <span class="sfw-accent" style="background:${accent}"></span>
+        ${config.showAvatars !== false ? `
+          <div class="sfw-head">
+            <img class="sfw-avatar" src="${escapeAttr(feed.avatar)}" alt="${escapeAttr(feed.author)}" loading="lazy"/>
+            <div class="sfw-meta">
+              <div class="sfw-author">${escapeHtml(feed.author)}</div>
+              ${config.showTimestamp !== false ? `<div class="sfw-time">${timeAgo(feed.timestamp)}</div>`:''}
             </div>
-        `;
+          </div>
+        `:''}
+        <div class="sfw-content">${escapeHtml(feed.content)}</div>
+        <div class="sfw-actions">
+          ${feed.likes ? `<span class="sfw-chip">❤️ ${feed.likes}</span>`:''}
+          ${feed.comments ? `<span class="sfw-chip">💬 ${feed.comments}</span>`:''}
+          ${feed.shares ? `<span class="sfw-chip">↗️ ${feed.shares}</span>`:''}
+        </div>
+      </div>
+    `;
+  }
+
+  async function collectFeeds(config){
+    const platforms = (config.platforms || []).map(p => String(p).toLowerCase());
+    let all = [];
+    for (const p of platforms){
+      const arr = await mockFetch(p); // демо-данные
+      all = all.concat(arr);
     }
+    all = applyFilters(all, config.filters);
+    all.sort((a,b)=> new Date(b.timestamp) - new Date(a.timestamp));
+    return all;
+  }
+
+  // ФИЛЬТРЫ
+  function applyFilters(feeds, filters){
+    if (!filters) return feeds;
+    let res = feeds.slice();
+    if (filters.minLikes) res = res.filter(f => (f.likes||0) >= filters.minLikes);
+    if (filters.excludeWords?.length){
+      const re = new RegExp(filters.excludeWords.join('|'), 'i');
+      res = res.filter(f => !re.test(f.content));
+    }
+    if (filters.includeHashtags?.length){
+      const re = new RegExp(filters.includeHashtags.map(h => `#${h}`).join('|'), 'i');
+      res = res.filter(f => re.test(f.content));
+    }
+    return res;
+  }
+
+  // DEMO источники (на реальном проекте здесь API)
+  async function mockFetch(platform){
+    const now = Date.now();
+    const rand = (min, max) => Math.floor(Math.random()*(max-min+1))+min;
+    const ts = () => new Date(now - rand(10, 60*60*24)*60*1000).toISOString();
+
+    const byP = {
+      instagram: () => ({
+        id: 'ig'+rand(1,9999), platform:'instagram',
+        author:'Instagram User',
+        avatar:'https://via.placeholder.com/40x40/E4405F/ffffff?text=IG',
+        content:'Потрясающее фото! 📸 #photography #sunset',
+        timestamp: ts(), likes: rand(50, 1200), comments: rand(3,150)
+      }),
+      facebook: () => ({
+        id:'fb'+rand(1,9999), platform:'facebook',
+        author:'Facebook Page',
+        avatar:'https://via.placeholder.com/40x40/1877F2/ffffff?text=FB',
+        content:'Новости и апдейты компании. Следите за нами! 👥',
+        timestamp: ts(), likes: rand(20,600), comments: rand(1,90), shares: rand(5,120)
+      }),
+      tiktok: () => ({
+        id:'tk'+rand(1,9999), platform:'tiktok',
+        author:'TikTok Creator',
+        avatar:'https://via.placeholder.com/40x40/FF0050/ffffff?text=TK',
+        content:'Новый тренд 🎵 #viral #trending',
+        timestamp: ts(), likes: rand(100,2500), comments: rand(10,300), shares: rand(20,600)
+      }),
+      linkedin: () => ({
+        id:'li'+rand(1,9999), platform:'linkedin',
+        author:'Professional Network',
+        avatar:'https://via.placeholder.com/40x40/0A66C2/ffffff?text=LI',
+        content:'Карьерные инсайты и советы. Развиваемся вместе! 💼',
+        timestamp: ts(), likes: rand(10,350), comments: rand(1,40)
+      }),
+      whatsapp: () => ({
+        id:'wa'+rand(1,9999), platform:'whatsapp',
+        author:'WhatsApp Status',
+        avatar:'https://via.placeholder.com/40x40/25D366/ffffff?text=WA',
+        content:'Статус дня: продуктивность и позитив ✨',
+        timestamp: ts()
+      })
+    };
+
+    const make = byP[platform] || byP.instagram;
+    // по 2 карточки каждого выбраного источника
+    return [make(), make()];
+  }
+
+  // Вспомогательные
+  function timeAgo(ts){
+    const d = new Date(ts), now = new Date();
+    const diff = (now - d);
+    const m = Math.floor(diff/60000);
+    const h = Math.floor(diff/3600000);
+    const day = Math.floor(diff/86400000);
+    if (day>0) return `${day}д назад`;
+    if (h>0) return `${h}ч назад`;
+    if (m>0) return `${m}м назад`;
+    return 'только что';
+  }
+
+  async function loadConfig(id, basePath){
+    const url = `${basePath}configs/${id}.json`;
+    try {
+      const r = await fetch(url, { cache:'no-store' });
+      if (!r.ok) return defaultConfig;
+      const cfg = await r.json();
+      return mergeDeep(defaultConfig, cfg);
+    } catch {
+      return defaultConfig;
+    }
+  }
+
+  function getBasePath(src){
+    try {
+      const u = new URL(src, location.href);
+      return u.pathname.replace(/\/[^\/]*$/, '/') ;
+    } catch { return './'; }
+  }
+
+  function mergeDeep(t, s){
+    const o = Array.isArray(t) ? t.slice() : { ...t };
+    for (const k in s){
+      if (s[k] && typeof s[k] === 'object' && !Array.isArray(s[k])){
+        o[k] = mergeDeep(t[k] || {}, s[k]);
+      } else {
+        o[k] = s[k];
+      }
+    }
+    return o;
+  }
+
+  function escapeHtml(str){ const d=document.createElement('div'); d.textContent = str ?? ''; return d.innerHTML; }
+  function escapeAttr(str){ return (str ?? '').replace(/"/g,'&quot;'); }
+
 })();
