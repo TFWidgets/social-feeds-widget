@@ -1,17 +1,49 @@
 {
-  "title": "News and Cases",
-  "platforms": ["instagram", "tiktok"],
+  "title": "Company News",
+  "platforms": ["linkedin", "facebook", "instagram"],
   "maxPosts": 6,
-  "layout": "grid",
-  "theme": {
-    "primaryColor": "#2563eb",
-    "secondaryColor": "#1d4ed8",
-    "textColor": "white",
-    "borderRadius": 18
-  },
-  "fontFamily": "'Roboto', sans-serif",
+  "layout": "list",
+  "showAvatars": true,
+  "showTimestamp": true,
+  "refreshInterval": 0,
   "filters": {
     "minLikes": 50,
-    "excludeWords": ["розыгрыш", "casino"]
+    "excludeWords": ["viral", "trend"]
+  },
+  "icon": "",
+  "iconHtml": "&#128293;",
+  "style": {
+    "fontFamily": "'Roboto', system-ui, sans-serif",
+    "valueFontFamily": "'Roboto', system-ui, sans-serif",
+    "colors": {
+      "background": "linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%)",
+      "text": "#f1f5f9",
+      "blockBackground": "rgba(241,245,249,0.10)",
+      "blockBorder": "rgba(241,245,249,0.20)",
+      "blockHover": "rgba(241,245,249,0.15)",
+      "borderHover": "rgba(241,245,249,0.30)",
+      "chipBackground": "rgba(241,245,249,0.12)",
+      "chipBorder": "rgba(241,245,249,0.25)",
+      "avatarBorder": "rgba(241,245,249,0.60)"
+    },
+    "borderRadius": {
+      "widget": 24,
+      "blocks": 18
+    },
+    "sizes": {
+      "fontSize": 1.1,
+      "padding": 35,
+      "blockPadding": 20,
+      "gap": 20,
+      "cardMinWidth": 300,
+      "avatarSize": 44,
+      "accentWidth": 5
+    },
+    "shadow": {
+      "widget": "0 25px 70px rgba(30,41,59,0.40)",
+      "widgetHover": "0 35plus 90px rgba(30,41,59,0.50)",
+      "text": "0 3px 12px rgba(0,0,0,0.4)",
+      "cardHover": "0 18px 45px rgba(0,0,0,0.35)"
+    }
   }
 }
