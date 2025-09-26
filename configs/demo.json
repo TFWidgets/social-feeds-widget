@@ -1,15 +1,46 @@
 {
-  "title": "Our soucial",
+  "title": "Our Social",
   "platforms": ["facebook", "instagram", "tiktok", "linkedin", "whatsapp"],
   "maxPosts": 8,
   "layout": "grid",
   "showAvatars": true,
   "showTimestamp": true,
-  "theme": {
-    "primaryColor": "#667eea",
-    "secondaryColor": "#764ba2",
-    "textColor": "white",
-    "borderRadius": 20
-  },
-  "fontFamily": "'Inter', sans-serif"
+  "refreshInterval": 0,
+  "filters": null,
+  "icon": "",
+  "iconHtml": "&#128248;",
+  "style": {
+    "fontFamily": "'Inter', system-ui, sans-serif",
+    "valueFontFamily": "'Inter', system-ui, sans-serif",
+    "colors": {
+      "background": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+      "text": "white",
+      "blockBackground": "rgba(255,255,255,0.14)",
+      "blockBorder": "rgba(255,255,255,0.28)",
+      "blockHover": "rgba(255,255,255,0.20)",
+      "borderHover": "rgba(255,255,255,0.40)",
+      "chipBackground": "rgba(255,255,255,0.18)",
+      "chipBorder": "rgba(255,255,255,0.32)",
+      "avatarBorder": "rgba(255,255,255,0.75)"
+    },
+    "borderRadius": {
+      "widget": 20,
+      "blocks": 16
+    },
+    "sizes": {
+      "fontSize": 1.0,
+      "padding": 30,
+      "blockPadding": 18,
+      "gap": 18,
+      "cardMinWidth": 280,
+      "avatarSize": 40,
+      "accentWidth": 4
+    },
+    "shadow": {
+      "widget": "0 20px 60px rgba(102,126,234,0.25)",
+      "widgetHover": "0 30px 80px rgba(102,126,234,0.35)",
+      "text": "0 2px 8px rgba(0,0,0,0.35)",
+      "cardHover": "0 14px 36px rgba(0,0,0,0.25)"
+    }
+  }
 }
