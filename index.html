@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📱 Social Media Widgets - Отдельные виджеты</title>
+    <title>📷 Instagram Widget</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
@@ -78,8 +78,8 @@
         }
         
         .code-example:hover {
-            border-color: #10b981;
-            box-shadow: 0 0 20px rgba(16,185,129,0.3);
+            border-color: #E4405F;
+            box-shadow: 0 0 20px rgba(228,64,95,0.3);
         }
         
         .widget-container {
@@ -97,24 +97,24 @@
 </head>
 <body>
     <div class="header">
-        <h1>📱 Instagram Widget</h1>
-        <p>Специализированный виджет для Instagram постов</p>
+        <h1>📷 Instagram Widget</h1>
+        <p>Специализированный виджет для Instagram постов с современным дизайном</p>
     </div>
 
     <div class="demo-section">
-        <h2>📷 Instagram Feed</h2>
+        <h2>📷 Instagram Feed Demo</h2>
         
         <div class="style-info">
             <strong>Описание:</strong> Специализированный виджет для Instagram постов<br>
-            <strong>Особенности:</strong> Instagram-градиенты, фото-фокус, реальные метрики
+            <strong>Особенности:</strong> Instagram-градиенты, фото-фокус, реальные аватары, лайки и комментарии
         </div>
         
         <div class="code-example" onclick="copyCode(this)">
-&lt;script src="<span class="embed-url">LOADING...</span>/embed-instagram.js" data-id="demo"&gt;&lt;/script&gt;
+&lt;script src="<span class="embed-url">LOADING...</span>/embed.js" data-id="demo"&gt;&lt;/script&gt;
         </div>
         
         <div class="widget-container">
-            <script src="./embed-instagram.js" data-id="demo"></script>
+            <script src="./embed.js" data-id="demo"></script>
         </div>
     </div>
 
@@ -123,14 +123,14 @@
         
         <div class="style-info">
             <strong>Описание:</strong> Встроенная JSON конфигурация без внешних запросов<br>
-            <strong>Особенности:</strong> Кастомная тема, встроенный конфиг
+            <strong>Особенности:</strong> Кастомная тема, встроенный конфиг, приватность
         </div>
         
         <div class="widget-container">
             <script id="instagram-local-config" type="application/json">
             {
               "widgetTitle": "Creative Instagram 🎨",
-              "widgetDescription": "Креативные посты из нашего Instagram",
+              "widgetDescription": "Креативные посты из нашего Instagram аккаунта",
               "maxPosts": 4,
               "showMedia": true,
               "style": {
@@ -142,7 +142,7 @@
               }
             }
             </script>
-            <script src="./embed-instagram.js" data-id="local"></script>
+            <script src="./embed.js" data-id="local"></script>
         </div>
     </div>
 
@@ -156,7 +156,7 @@
             const text = element.textContent.trim();
             navigator.clipboard.writeText(text).then(() => {
                 const originalText = element.innerHTML;
-                element.style.borderColor = '#10b981';
+                element.style.borderColor = '#E4405F';
                 element.innerHTML = '✅ СКОПИРОВАНО!';
                 
                 setTimeout(() => {
@@ -166,7 +166,7 @@
             });
         }
         
-        console.log('📱 Instagram Widget - Готово к использованию');
+        console.log('📷 Instagram Widget - Готово к использованию');
     </script>
 </body>
 </html>
