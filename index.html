@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📱 Social Feeds Widget - Modern Demo</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>📱 Social Media Widgets - instagram </title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             margin: 0;
             padding: 40px 20px;
-            background: #f8fafc; /* Светлый фон под новый дизайн */
+            background: #f8fafc;
             min-height: 100vh;
             color: #334155;
         }
@@ -36,7 +36,7 @@
         .demo-section {
             max-width: 1200px;
             margin: 0 auto 50px auto;
-            background: #ffffff; /* Белый фон секций */
+            background: #ffffff;
             padding: 40px;
             border-radius: 24px;
             box-shadow: 0 12px 32px rgba(0,0,0,0.08);
@@ -83,11 +83,9 @@
         }
         
         .widget-container {
-            padding: 0; /* Убираем отступы - виджет сам управляет */
+            padding: 0;
             background: none;
             border-radius: 0;
-            backdrop-filter: none;
-            border: none;
         }
         
         @media (max-width: 768px) {
@@ -99,71 +97,86 @@
 </head>
 <body>
     <div class="header">
-        <h1>📱 Social Media Feed Widget</h1>
-        <p>Современный виджет социальных сетей с горизонтальной прокруткой</p>
+        <h1>📱 Social Media Widgets</h1>
+        <p>Instagram</p>
     </div>
 
     <div class="demo-section">
-        <h2>🎉 Современный Social Feed (demo)</h2>
+        <h2>📷 Instagram Widget</h2>
         
         <div class="style-info">
-            <strong>Описание:</strong> Горизонтальная прокрутка карточек с иконками платформ и современным дизайном<br>
-            <strong>Особенности:</strong> Белая тема, карусель, реальные аватары, метрики взаимодействий
+            <strong>Описание:</strong> Специализированный виджет для Instagram постов<br>
+            <strong>Особенности:</strong> Instagram-градиенты, фото-фокус, реальные метрики
         </div>
         
         <div class="code-example" onclick="copyCode(this)">
-&lt;script src="<span class="embed-url">LOADING...</span>/embed.js" data-id="demo"&gt;&lt;/script&gt;
+&lt;script src="<span class="embed-url">LOADING...</span>/embed-instagram.js" data-id="demo"&gt;&lt;/script&gt;
         </div>
         
         <div class="widget-container">
-            <script src="./embed.js" data-id="demo"></script>
+            <script src="./embed-instagram.js" data-id="demo"></script>
         </div>
     </div>
 
     <div class="demo-section">
-        <h2>🏢 Бизнес конфигурация (client123)</h2>
+        <h2>📘 Facebook Widget</h2>
         
         <div class="style-info">
-            <strong>Описание:</strong> Пример кастомизированной настройки для бизнеса<br>
-            <strong>Особенности:</strong> Roboto шрифт, фильтрация контента, профессиональная тема
+            <strong>Описание:</strong> Специализированный виджет для Facebook постов<br>
+            <strong>Особенности:</strong> Facebook-синий, новости и события, шейры
         </div>
         
         <div class="code-example" onclick="copyCode(this)">
-&lt;script src="<span class="embed-url">LOADING...</span>/embed.js" data-id="client123"&gt;&lt;/script&gt;
+&lt;script src="<span class="embed-url">LOADING...</span>/embed-facebook.js" data-id="demo"&gt;&lt;/script&gt;
         </div>
         
         <div class="widget-container">
-            <script src="./embed.js" data-id="client123"></script>
+            <script src="./embed-facebook.js" data-id="demo"></script>
         </div>
     </div>
 
     <div class="demo-section">
-        <h2>🧪 Локальный конфиг (local)</h2>
+        <h2>🎵 TikTok Widget</h2>
+        
+        <div class="style-info">
+            <strong>Описание:</strong> Специализированный виджет для TikTok видео<br>
+            <strong>Особенности:</strong> TikTok-розовый, вертикальные видео, тренды
+        </div>
+        
+        <div class="code-example" onclick="copyCode(this)">
+&lt;script src="<span class="embed-url">LOADING...</span>/embed-tiktok.js" data-id="demo"&gt;&lt;/script&gt;
+        </div>
+        
+        <div class="widget-container">
+            <script src="./embed-tiktok.js" data-id="demo"></script>
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h2>🧪 Локальный конфиг для Instagram</h2>
         
         <div class="style-info">
             <strong>Описание:</strong> Встроенная JSON конфигурация без внешних запросов<br>
-            <strong>Особенности:</strong> Эко-тема, встроенный конфиг, приватность
+            <strong>Особенности:</strong> Кастомная тема, встроенный конфиг
         </div>
         
         <div class="widget-container">
-            <script id="sfw-local-config" type="application/json">
+            <script id="instagram-local-config" type="application/json">
             {
-              "widgetTitle": "Eco Social 🌱",
-              "widgetDescription": "Экологические инициативы в наших социальных сетях",
-              "showPlatformIcons": true,
-              "platforms": ["instagram", "whatsapp", "facebook"],
+              "widgetTitle": "Creative Instagram 🎨",
+              "widgetDescription": "Креативные посты из нашего Instagram",
               "maxPosts": 4,
               "showMedia": true,
               "style": {
                 "colors": {
                   "background": "#ffffff",
-                  "logoBg": "linear-gradient(135deg, #059669 0%, #047857 100%)"
+                  "logoBg": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
                 },
                 "sizes": { "cardWidth": 320 }
               }
             }
             </script>
-            <script src="./embed.js" data-id="local"></script>
+            <script src="./embed-instagram.js" data-id="local"></script>
         </div>
     </div>
 
@@ -187,7 +200,7 @@
             });
         }
         
-        console.log('📱 Social Feeds Widget - Современная демо');
+        console.log('📱 Social Media Widgets - Отдельные виджеты');
     </script>
 </body>
 </html>
