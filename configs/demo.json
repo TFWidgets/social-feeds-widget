@@ -1,6 +1,6 @@
 {
   "widgetTitle": "Instagram Feed",
-  "widgetDescription": "Latest posts from our Instagram account",
+  "widgetDescription": "Latest posts from our Instagram account", 
   "maxPosts": 6,
   "showAvatars": true,
   "showTimestamp": true,
@@ -23,7 +23,7 @@
     "colors": {
       "background": "#ffffff",
       "text": "#1a1a1a",
-      "title": "#1a202c",
+      "title": "#1a202c", 
       "description": "#4a5568",
       "author": "#111827",
       "time": "#6b7280",
