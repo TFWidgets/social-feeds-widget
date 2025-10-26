@@ -1,14 +1,10 @@
 {
-  "widgetTitle": "Elementor Social Media Feed widget",
-  "widgetDescription": "Aggregate content from multiple social media platforms into one dynamic feed, giving your visitors fresh and engaging content into your Elementor website effortlessly.",
-  "showPlatformIcons": true,
-  "platforms": ["facebook", "instagram", "tiktok", "linkedin", "twitter", "youtube"],
+  "widgetTitle": "Instagram Feed",
+  "widgetDescription": "Latest posts from our Instagram account",
   "maxPosts": 6,
-  "layout": "carousel",
   "showAvatars": true,
   "showTimestamp": true,
   "showMedia": true,
-  "refreshInterval": 0,
   "style": {
     "fontFamily": "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
     "colors": {
@@ -25,7 +21,7 @@
       "borderHover": "#d1d5db",
       "avatarBorder": "#f3f4f6",
       "actionsBorder": "#f3f4f6",
-      "logoBg": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+      "logoBg": "linear-gradient(135deg, #E4405F 0%, #C13584 100%)"
     },
     "borderRadius": {
       "widget": 24,
@@ -42,7 +38,7 @@
     "shadow": {
       "widget": "0 8px 32px rgba(0,0,0,0.08)",
       "card": "0 4px 12px rgba(0,0,0,0.05)",
-      "cardHover": "0 12px 24px rgba(0,0,0,0.12)"
+      "cardHover": "0 12px 24px rgba(228,64,95,0.15)"
     }
   }
 }
