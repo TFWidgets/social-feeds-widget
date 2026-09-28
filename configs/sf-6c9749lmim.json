@@ -1,0 +1,51 @@
+{
+  "active": true,
+  "domains": [
+    "cdpn.io"
+  ],
+  "widget": "social",
+  "site": "su2tl0chq",
+  "layout": "grid",
+  "shape": "square",
+  "columns": 3,
+  "title": "",
+  "subtitle": "",
+  "showCaptions": true,
+  "openIn": "popup",
+  "locale": "en",
+  "style": {
+    "fontFamily": "'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif",
+    "transparent": false,
+    "colors": {
+      "background": "#101114",
+      "text": "#f4f4f5",
+      "accent": "#f4f4f5",
+      "accentText": "#111111",
+      "tile": "#27282b",
+      "widgetBorder": "rgba(244, 244, 245, 0.1)",
+      "line": "rgba(244, 244, 245, 0.2)"
+    },
+    "borderRadius": {
+      "widget": 22,
+      "blocks": 14
+    },
+    "sizes": {
+      "fontSize": 1,
+      "padding": 28,
+      "gap": 12,
+      "width": 1140
+    },
+    "shadow": {
+      "widget": "0 24px 60px -28px rgba(0, 0, 0, 0.28)"
+    }
+  },
+  "posts": [
+    {
+      "url": "https://www.instagram.com/reel/DdL6RrNt6aG/",
+      "platform": "instagram",
+      "id": "DdL6RrNt6aG",
+      "caption": "25 likes, 0 comments - klipzclips on September 12, 2026: \"Этот парень общается с прокурором веймофф #веймофф #veimoff #twitch #dogdrop\"."
+    }
+  ],
+  "profiles": []
+}
